@@ -26,23 +26,47 @@ def create_app(test_config=None):
         response.headers.add('Access-Control-Allow-Methods',
                              'GET,PATCH,POST,DELETE,OPTIONS')
         return response
+  # CATEGORIES - GET
+    @app.route('/categories')
+    def get_categories():
+        categories = Category.query.all()
+        categories_dict = {}
+        for category in categories:
+            formatted_category = category.format()
+            categories_dict[category.id] = formatted_category
+
+        return jsonify({
+            'categories': categories_dict,
+        })
     '''
-  @TODO: 
-  Create an endpoint to handle GET requests 
-  for all available categories.
-  '''
-    '''
-  @TODO: 
-  Create an endpoint to handle GET requests for questions, 
-  including pagination (every 10 questions). 
-  This endpoint should return a list of questions, 
-  number of total questions, current category, categories. 
+  @TODO:
+  Create an endpoint to handle GET requests for questions,
+  including pagination (every 10 questions).
+  This endpoint should return a list of questions,
+  number of total questions, current category, categories.
 
   TEST: At this point, when you start the application
   you should see questions and categories generated,
   ten questions per page and pagination at the bottom of the screen for three pages.
-  Clicking on the page numbers should update the questions. 
+  Clicking on the page numbers should update the questions.
   '''
+    @app.route('/questions')
+    def get_questions():
+        questions = Question.query.all()
+        formatted_questions = list(map(lambda x: x.format(), questions))
+        totalQuestions = len(formatted_questions)
+        categories = Category.query.all()
+        categories_dict = {}
+        for category in categories:
+            formatted_category = category.format()
+            categories_dict[category.id] = formatted_category
+
+        return jsonify({
+            'questions': formatted_questions,
+            'totalQuestions': totalQuestions,
+            'categories': categories_dict,
+            'currentCategory': categories_dict[1]['id']
+        })
 
     '''
   @TODO: 
