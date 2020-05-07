@@ -1,7 +1,6 @@
 # Trivia API Definition
 ## Questions
 ### Get Questions
-#### Title
 Get questions and optionally filter for a specific search term or a specific category. Returns 10 questions per page.
 #### Method
 GET
@@ -36,16 +35,15 @@ None
 'current_category': [id] | null
 ```
 #### Errors
-- Invalid page param
+- No questions for page
    - Status code: `404`
    - Response: `{error: 404, message: 'Resource not found'}`
-- Invalid page param
+- Category not found
    - Status code: `404`
    - Response: `{error: 404, message: 'Resource not found'}`
 #### Sample Call
 `/questions?page=1&q=query&category=1`
 ### Create Question
-#### Title
 Create a new question
 #### Method
 POST
@@ -106,8 +104,7 @@ Response:
        }
    ```
 ### Delete Question
-#### Title
-Deleta a  question
+Delete a  question by its id
 #### Method
 DELETE
 #### Endpoint
@@ -132,4 +129,92 @@ None
 Response:
    - Status code: `204`
    - Response: None
-
+## Categories
+### Get Categories
+Get all categories
+#### Method
+GET
+#### Endpoint
+`/categories`
+#### URL Params
+None
+#### Query Params
+None
+#### Data params
+None
+#### Success response
+- Status code: `200`
+- Response:
+```
+'categories': [
+   {
+      id: [id],
+      type: [string]
+    }, ...]
+```
+#### Errors
+None
+#### Sample Call
+`/categories`
+- Status code: `200`
+- Response:
+```
+'categories': [
+   {
+      id: 1,
+      type: 'Science'
+   },
+   {
+      id: 2,
+      type: 'Art'
+   }
+]
+```
+### Get Questions for Category
+Get all questions for a category by category id
+#### Method
+GET
+#### Endpoint
+`/categories/<category_id>/questions`
+#### URL Params
+-  category_id=[int]
+#### Query Params
+None
+#### Data params
+None
+#### Success response
+- Status code: `200`
+- Response:
+```
+'questions': [
+   {
+      id: [id],
+      question: [string],
+      answer: [string],
+      difficulty: [int],
+      category: [int]
+     }, ...],
+'total_questions': [int],
+'current_category': [id] | null
+```
+#### Errors
+- Could not find category
+   - Status code: `404`
+   - Response: `{error: 404, message: 'Resource Not Found'}`
+#### Sample Call
+`/categories/1/questions`
+- Status code: `200`
+- Response:
+```
+'questions': [
+   {
+      id: 1,
+      question: 'What is the new question?',
+      answer: 'This is the answer',
+      category: 1,
+      difficulty: 1
+    }
+],
+'total_questions': 1,
+'current_category': 1
+```
