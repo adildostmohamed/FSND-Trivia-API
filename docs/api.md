@@ -2,7 +2,7 @@
 ## Questions
 ### Get Questions
 #### Title
-Get questions and optionally filter for a specific search term or a specific category
+Get questions and optionally filter for a specific search term or a specific category. Returns 10 questions per page.
 #### Method
 GET
 #### Endpoint
@@ -19,9 +19,20 @@ None
 - Status code: `200`
 - Response:
 ```
-'questions': [{id: [id], question: [string], answer: [string], difficulty: [int], category: [int]}, ...],
+'questions': [
+   {
+      id: [id],
+      question: [string],
+      answer: [string],
+      difficulty: [int],
+      category: [int]
+     }, ...],
 'total_questions': [int],
-'categories': [{id: [id], type: [string]}, ...],
+'categories': [
+   {
+      id: [id],
+      type: [string]
+    }, ...],
 'current_category': [id] | null
 ```
 #### Errors
@@ -57,7 +68,13 @@ None
 - Status code: `201`
 - Response:
 ```
-'question': {id: [id], question: [string], answer: [string], difficulty: [int], category: [int]}
+'question': {
+   id: [id],
+   question: [string],
+   answer: [string],
+   difficulty: [int],
+   category: [int]
+ }
 ```
 #### Errors
 - Missing request body data params
@@ -88,3 +105,31 @@ Response:
          }
        }
    ```
+### Delete Question
+#### Title
+Deleta a  question
+#### Method
+DELETE
+#### Endpoint
+`/questions/<question_id>`
+#### URL Params
+- question_id[int] - required
+#### Query Params
+None
+#### Req Body Params
+None
+#### Success response
+- Status code: `204`
+- Response: None
+#### Errors
+- Could not find question
+   - Status code: `404`
+   - Response: `{error: 404, message: 'Resource Not Found'}`
+#### Sample Call
+Delete - `/questions/1`
+Request body:
+None
+Response:
+   - Status code: `204`
+   - Response: None
+
