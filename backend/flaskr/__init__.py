@@ -31,13 +31,6 @@ def create_app(test_config=None):
         return response
   # CATEGORIES - GET
 
-    def get_categories_dict(categories):
-        categories_dict = {}
-        for category in categories:
-            formatted_category = category.format()
-            categories_dict[category.id] = formatted_category
-        return categories_dict
-
     @app.route('/categories', methods=['GET'])
     def get_categories():
         categories = Category.query.order_by(Category.id).all()
@@ -121,7 +114,7 @@ def create_app(test_config=None):
             question.delete()
             return Response(status=204)
         except:
-            abort(422)
+            abort(500)
     '''
   @TODO:
   Create an endpoint to POST a new question,
