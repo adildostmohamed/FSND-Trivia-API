@@ -218,8 +218,8 @@ None
 'total_questions': 1,
 'current_category': 1
 ```
-## Questions
-### Get Questions
+## Quizzes
+### Get Random Quiz Question
 Get a random next question for an active quiz for a given category. Returns a random question from the available questions for that category, whether the quiz should end and how many questions are remaining for that category.
 #### Method
 GET
