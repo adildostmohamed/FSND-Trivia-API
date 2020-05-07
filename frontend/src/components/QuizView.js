@@ -35,7 +35,7 @@ class QuizView extends Component {
     });
   }
 
-  selectCategory = ({ type, id = 0 }) => {
+  selectCategory = ({ type = "all", id = 0 }) => {
     this.setState({ quizCategory: { type, id } }, this.getNextQuestion);
   };
 
@@ -68,7 +68,7 @@ class QuizView extends Component {
           previousQuestions: previousQuestions,
           currentQuestion: result.question,
           guess: "",
-          forceEnd: result.question ? false : true,
+          forceEnd: result.quiz_completed,
         });
         return;
       },

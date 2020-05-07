@@ -11,7 +11,7 @@ class FormView extends Component {
       answer: "",
       difficulty: 1,
       category: 1,
-      categories: {},
+      categories: [],
     };
   }
 
@@ -35,7 +35,6 @@ class FormView extends Component {
     $.ajax({
       url: "/questions", //TODO: update request URL
       type: "POST",
-      dataType: "json",
       contentType: "application/json",
       data: JSON.stringify({
         question: this.state.question,
@@ -48,10 +47,12 @@ class FormView extends Component {
       },
       crossDomain: true,
       success: (result) => {
+        console.log(result);
         document.getElementById("add-question-form").reset();
         return;
       },
       error: (error) => {
+        console.error(error);
         alert("Unable to add question. Please try your request again");
         return;
       },
@@ -60,6 +61,18 @@ class FormView extends Component {
 
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
+  };
+
+  renderCategoriesOpions = () => {
+    const { categories } = this.state;
+    return categories.map((category) => {
+      const { id, type } = category;
+      return (
+        <option key={id} value={id}>
+          {type}
+        </option>
+      );
+    });
   };
 
   render() {
@@ -93,16 +106,7 @@ class FormView extends Component {
           <label>
             Category
             <select name="category" onChange={this.handleChange}>
-              {Object.keys(this.state.categories).map((categoryId) => {
-                return (
-                  <option
-                    key={categories[categoryId].id}
-                    value={categories[categoryId].id}
-                  >
-                    {categories[categoryId].type}
-                  </option>
-                );
-              })}
+              {this.renderCategoriesOpions()}
             </select>
           </label>
           <input type="submit" className="button" value="Submit" />
