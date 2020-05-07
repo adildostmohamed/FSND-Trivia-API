@@ -218,3 +218,47 @@ None
 'total_questions': 1,
 'current_category': 1
 ```
+## Questions
+### Get Questions
+Get a random next question for an active quiz for a given category. Returns a random question from the available questions for that category, whether the quiz should end and how many questions are remaining for that category.
+#### Method
+GET
+#### Endpoint
+`/quizzes`
+#### URL Params
+None
+#### Query Params
+None
+#### Request Body Params
+```
+'quiz_category': [int],
+'previous_questions': [[int], ...]
+```
+#### Success response
+- Status code: `200`
+- Response:
+```
+'question': {
+   id: [id],
+   question: [string],
+   answer: [string],
+   difficulty: [int],
+   category: [int]
+},
+'quiz_completed': [bool],
+'remaining_questions': [int]
+```
+#### Errors
+- Quiz Category param missing
+   - Status code: `400`
+   - Response: `{error: 400, message: 'Bad Request'}`
+- Quiz Category not found
+   - Status code: `404`
+   - Response: `{error: 404, message: 'Resource not found'}`
+#### Sample Call
+`/quizzes`
+Request body:
+```
+'quiz_category': 1,
+'previous_questions': [1,2, 5]
+```
