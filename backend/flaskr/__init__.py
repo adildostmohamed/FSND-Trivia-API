@@ -241,13 +241,14 @@ def create_app(test_config=None):
             abort(400)
         try:
             quiz_category_id = quiz_category['id']
-            category = Category.query.get(quiz_category_id)
-            if category is None:
-                abort(404)
-            questions_for_category = get_questions_for_category_id(
-                quiz_category_id)
+            questions = []
+            if quiz_category_id == 0:
+                questions = Question.query.all()
+            else:
+                questions = get_questions_for_category_id(
+                    quiz_category_id)
             remaining_questions = get_remaining_questions(
-                questions_for_category, prev_questions)
+                questions, prev_questions)
             quiz_response = get_quiz_response(remaining_questions)
             return make_response(quiz_response, 200)
         except:

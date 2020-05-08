@@ -41,12 +41,13 @@ class TriviaTestCase(unittest.TestCase):
             Question.question.ilike('%{}%'.format(''))).order_by(Question.id).all()
         total_questions = len(questions)
         categories = Category.query.all()
+        paginated_questions = total_questions if total_questions < 10 else 10
         res = self.client().get('/questions?page=1')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['questions'])
-        self.assertEqual(len(data['questions']), 10)
+        self.assertEqual(len(data['questions']), paginated_questions)
         self.assertEqual(data['total_questions'], total_questions)
         self.assertTrue(data['categories'])
         self.assertEqual(len(data['categories']), len(categories))
@@ -58,12 +59,13 @@ class TriviaTestCase(unittest.TestCase):
         questions = Question.query.filter(
             Question.question.ilike('%{}%'.format(search_term))).order_by(Question.id).all()
         total_questions = len(questions)
+        paginated_questions = total_questions if total_questions < 10 else 10
         res = self.client().get('/questions?page=1&q='+search_term)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['questions'])
-        self.assertEqual(len(data['questions']), 10)
+        self.assertEqual(len(data['questions']), paginated_questions)
         self.assertEqual(data['total_questions'], total_questions)
         self.assertTrue(data['categories'])
         self.assertEqual(len(data['categories']), len(categories))
@@ -78,13 +80,14 @@ class TriviaTestCase(unittest.TestCase):
         filtered_questions = list(
             filter(lambda x: x.category == category_id, questions))
         total_questions = len(filtered_questions)
+        paginated_questions = total_questions if total_questions < 10 else 10
         res = self.client().get('/questions?page=1&q=' +
                                 search_term+'&category='+str(category_id))
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['questions'])
-        self.assertEqual(len(data['questions']), 10)
+        self.assertEqual(len(data['questions']), paginated_questions)
         self.assertEqual(data['total_questions'], total_questions)
         self.assertTrue(data['categories'])
         self.assertEqual(len(data['categories']), len(categories))
