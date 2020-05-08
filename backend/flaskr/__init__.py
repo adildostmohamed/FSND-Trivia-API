@@ -108,11 +108,14 @@ def create_app(test_config=None):
         question = Question.query.get(question_id)
         if question is None:
             abort(404)
-        try:
-            question.delete()
-            return Response(status=204)
-        except:
-            abort(500)
+        else:
+            try:
+                question.delete()
+                return jsonify({
+                    'question_id': question_id
+                })
+            except:
+                abort(500)
     '''
   Create an endpoint to POST a new question,
   which will require the question and answer text,

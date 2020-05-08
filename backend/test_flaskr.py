@@ -174,8 +174,10 @@ class TriviaTestCase(unittest.TestCase):
         new_question_formatted = new_question.format()
         new_question_id = new_question_formatted['id']
         res = self.client().delete('/questions/' + str(new_question_id))
+        data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 204)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['question_id'], new_question_id)
 
     def test_error_not_found_delete_question(self):
         res = self.client().delete('/questions/50000')
